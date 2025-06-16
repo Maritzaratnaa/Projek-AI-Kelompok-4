@@ -1,13 +1,20 @@
 import os
 import streamlit as st
 from PIL import Image
-from keras.preprocessing.image import load_img, img_to_array
+from tensorflow.keras.preprocessing.image import load_img, img_to_array
+from tensorflow.keras.models import load_model
 import numpy as np
-from keras.models import load_model
 import requests
 from bs4 import BeautifulSoup
 
-model = load_model('model_buah_sayur.h5')
+def load_trained_model():
+    try:
+        return load_model('model_buah_sayur.h5')
+    except Exception as e:
+        st.error(f"Error loading model: {e}")
+        return None
+    
+model = load_trained_model()
 labels = {0: 'apple', 1: 'banana', 2: 'beetroot', 3: 'bell pepper', 4: 'cabbage', 5: 'capsicum', 6: 'carrot',
           7: 'cauliflower', 8: 'chilli pepper', 9: 'corn', 10: 'cucumber', 11: 'eggplant', 12: 'garlic', 13: 'ginger',
           14: 'grapes', 15: 'jalepeno', 16: 'kiwi', 17: 'lemon', 18: 'lettuce',
@@ -35,22 +42,28 @@ def fetch_calories(prediction):
 
 
 def processed_img(img_path):
-    img = load_img(img_path, target_size=(224, 224, 3))
-    img = img_to_array(img)
-    img = img / 255
-    img = np.expand_dims(img, [0])
-    answer = model.predict(img)
-    y_class = answer.argmax(axis=-1)
-    print(y_class)
-    y = " ".join(str(x) for x in y_class)
-    y = int(y)
-    res = labels[y]
-    print(res)
-    return res.capitalize()
-
+    if model is None:
+        return "Model not loaded"
+    
+    try:
+        img = load_img(img_path, target_size=(224, 224, 3))
+        img = img_to_array(img)
+        img = img / 255
+        img = np.expand_dims(img, [0])
+        answer = model.predict(img)
+        y_class = answer.argmax(axis=-1)
+        y = int(y_class[0])
+        res = labels[y]
+        return res.capitalize()
+    except Exception as e:
+        st.error(f"Error processing image: {e}")
+        return "Error"
 
 def run():
     st.title("Fruits🍍-Vegetable🍅 Classification")
+    if model is None:
+        st.error("Model file 'model_buah_sayur.h5' not found or failed to load!")
+        return
     img_file = st.file_uploader("Choose an Image", type=["jpg", "png"])
     if img_file is not None:
         img = Image.open(img_file).resize((250, 250))
@@ -73,5 +86,5 @@ def run():
             if cal:
                 st.warning('**' + cal + '(100 grams)**')
 
-
-run()
+if __name__ == "__main__":
+    run()
