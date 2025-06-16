@@ -46,7 +46,7 @@ def processed_img(img_path):
         return "Model not loaded"
     
     try:
-        img = load_img(img_path, target_size=(224, 224, 3))
+        img = load_img(img_path, target_size=(128, 128, 3))
         img = img_to_array(img)
         img = img / 255
         img = np.expand_dims(img, [0])
