@@ -24,10 +24,15 @@ vegetables = ['Beetroot', 'Cabbage', 'Capsicum', 'Carrot', 'Cauliflower', 'Corn'
 
 def fetch_calories(prediction):
     try:
-        url = 'https://www.google.com/search?&q=calories in ' + prediction
-        req = requests.get(url).text
-        scrap = BeautifulSoup(req, 'html.parser')
-        calories = scrap.find("div", class_="BNeawe iBp4i AP7Wnd").text
+        url = 'https://www.google.com/search?q=calories+in+' + prediction
+        headers = {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) " \
+                          "AppleWebKit/537.36 (KHTML, like Gecko) " \
+                          "Chrome/91.0.4472.124 Safari/537.36"
+        }
+        req = requests.get(url, headers=headers)
+        soup = BeautifulSoup(req.text, 'html.parser')
+        calories = soup.find("div", class_="BNeawe iBp4i AP7Wnd").text
         return calories
     except Exception as e:
         st.error("Can't able to fetch the Calories")
