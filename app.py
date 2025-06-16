@@ -60,7 +60,7 @@ def processed_img(img_path):
         return "Error"
 
 def run():
-    st.title("Fruits🍍-Vegetable🍅 Classification")
+    st.title("Fruits and Vegetable Classification")
     if model is None:
         st.error("Model file 'model_buah_sayur.h5' not found or failed to load!")
         return
