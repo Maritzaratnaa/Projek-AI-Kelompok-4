@@ -30,7 +30,7 @@ from urllib.parse import quote
 def fetch_calories(prediction):
     try:
         formatted = prediction.lower().replace(" ", "-")  # ubah spasi jadi dash
-        url = 'https://www.fatsecret.co.id/kalori-gizi/makanan/' + quote(formatted)
+        url = 'https://www.fatsecret.co.id/kalori-gizi/umum/' + quote(formatted)
         headers = {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
                           "AppleWebKit/537.36 (KHTML, like Gecko) "
