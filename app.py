@@ -36,31 +36,6 @@ def fetch_nutrition_info_improved(prediction):
     # Debug info
     st.write(f"🔍 Debug: Mencari info untuk '{prediction_lower}'")
     
-    # Strategi 1: Coba dari database statis (PASTI BERHASIL)
-    if prediction_lower in NUTRITION_DATABASE:
-        st.write("✅ Debug: Ditemukan di database statis")
-        nutrition = NUTRITION_DATABASE[prediction_lower]
-        
-        result = f"**Informasi Gizi (per 100 gram):**\n\n"
-        result += f"🔥 **Kalori**: {nutrition.get('kalori', 'N/A')}\n"
-        result += f"🍞 **Karbohidrat**: {nutrition.get('karbohidrat', 'N/A')}\n"
-        result += f"🌾 **Serat**: {nutrition.get('serat', 'N/A')}\n"
-        result += f"🍯 **Gula**: {nutrition.get('gula', 'N/A')}\n"
-        result += f"🥩 **Protein**: {nutrition.get('protein', 'N/A')}\n"
-        result += f"🧈 **Lemak**: {nutrition.get('lemak', 'N/A')}\n"
-        
-        # Tambahkan nutrisi khusus jika ada
-        special_nutrients = ['vitamin_c', 'kalium', 'folat', 'beta_karoten', 'zat_besi', 'likopen']
-        for nutrient in special_nutrients:
-            if nutrient in nutrition:
-                nutrient_name = nutrient.replace('_', ' ').title()
-                result += f"💊 **{nutrient_name}**: {nutrition[nutrient]}\n"
-        
-        if 'manfaat' in nutrition:
-            result += f"\n🌟 **Manfaat**: {nutrition['manfaat']}"
-        
-        return result
-    
     # Strategi 2: Coba web scraping sebagai backup
     try:
         st.write("🔍 Debug: Mencoba web scraping...")
@@ -116,13 +91,6 @@ def fetch_nutrition_info_improved(prediction):
     except Exception as e:
         st.write(f"❌ Debug: Error web scraping: {str(e)}")
     
-    # Strategi 3: Return info umum
-    st.write("ℹ️ Debug: Menggunakan informasi umum")
-    if prediction.capitalize() in fruits:
-        return "**Estimasi**: Buah umumnya mengandung 40-80 kkal per 100g, kaya vitamin dan antioksidan."
-    else:
-        return "**Estimasi**: Sayuran umumnya mengandung 15-50 kkal per 100g, tinggi serat dan mineral."
-
 def prepare_image(img_path):
     img = load_img(img_path, target_size=(224, 224, 3))
     img = img_to_array(img)
