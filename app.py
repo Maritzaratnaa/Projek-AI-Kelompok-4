@@ -24,23 +24,18 @@ vegetables = ['Beetroot', 'Cabbage', 'Capsicum', 'Carrot', 'Cauliflower', 'Corn'
 
 def fetch_calories(prediction):
     try:
-        url = 'https://www.google.com/search?q=calories+in+' + prediction
-        headers = {
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-                          "AppleWebKit/537.36 (KHTML, like Gecko) "
-                          "Chrome/91.0.4472.124 Safari/537.36"
-        }
-        req = requests.get(url, headers=headers, timeout=10)
-        print("Status Code:", req.status_code)
-        print("Response snippet:", req.text[:500])
-        soup = BeautifulSoup(req.text, 'html.parser')
-        calories = soup.find("div", class_="BNeawe iBp4i AP7Wnd").text
-        return calories
+        url = "https://api.calorieninjas.com/v1/nutrition?query=" + prediction
+        headers = {'X-Api-Key': 'YOUR_API_KEY'}  # Ganti dengan API Key kamu
+        r = requests.get(url, headers=headers)
+        result = r.json()
+        if result['items']:
+            cal = result['items'][0]['calories']
+            return f"{cal} kcal"
+        else:
+            return "Kalori tidak ditemukan"
     except Exception as e:
-        st.error("Gagal mengambil data kalori.")
+        st.error("Gagal ambil data kalori (API)")
         print("Error:", e)
-
-
 
 def prepare_image(img_path):
     img = load_img(img_path, target_size=(224, 224, 3))
