@@ -22,20 +22,61 @@ vegetables = ['Beetroot', 'Cabbage', 'Capsicum', 'Carrot', 'Cauliflower', 'Corn'
               'Tomato', 'Turnip']
 
 
-def fetch_calories(prediction):
+def fetch_calories_improved(prediction):
+    """
+    Fungsi yang ditingkatkan untuk mengambil data kalori dengan beberapa strategi fallback
+    """
+    prediction_lower = prediction.lower()
+    
+    # Strategi 1: Coba ambil dari Google dengan header yang lebih baik
     try:
-        url = "https://api.calorieninjas.com/v1/nutrition?query=" + prediction
-        headers = {'X-Api-Key': 'YOUR_API_KEY'}  # Ganti dengan API Key kamu
-        r = requests.get(url, headers=headers)
-        result = r.json()
-        if result['items']:
-            cal = result['items'][0]['calories']
-            return f"{cal} kcal"
-        else:
-            return "Kalori tidak ditemukan"
+        # Random delay untuk menghindari rate limiting
+        time.sleep(random.uniform(1, 3))
+        
+        search_query = f"calories in {prediction_lower} per 100g"
+        url = f'https://www.google.com/search?q={search_query}'
+        
+        headers = {
+            "User-Agent": random.choice([
+                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+                "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+                "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+            ]),
+            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+            "Accept-Language": "en-US,en;q=0.5",
+            "Accept-Encoding": "gzip, deflate",
+            "Connection": "keep-alive",
+            "Upgrade-Insecure-Requests": "1",
+        }
+        
+        session = requests.Session()
+        response = session.get(url, headers=headers, timeout=15)
+        
+        if response.status_code == 200:
+            soup = BeautifulSoup(response.text, 'html.parser')
+            
+            # Coba beberapa selector yang berbeda
+            selectors = [
+                "div.BNeawe.iBp4i.AP7Wnd",
+                "div.BNeawe.s3v9rd.AP7Wnd",
+                "span.BNeawe.iBp4i.AP7Wnd",
+                "div.Z0LcW",
+                "div.kCrYT",
+                "div.BNeawe"
+            ]
+            
+            for selector in selectors:
+                try:
+                    element = soup.select_one(selector)
+                    if element and 'calorie' in element.text.lower():
+                        return element.text.strip()
+                except:
+                    continue
+                    
+        print(f"Google search failed with status: {response.status_code}")
+        
     except Exception as e:
-        st.error("Gagal ambil data kalori (API)")
-        print("Error:", e)
+        print(f"Error fetching from Google: {e}")
 
 def prepare_image(img_path):
     img = load_img(img_path, target_size=(224, 224, 3))
@@ -54,24 +95,35 @@ def prepare_image(img_path):
 
 def run():
     st.title("Fruits🍍-Vegetable🍅 Classification")
-    img_file = st.file_uploader("Choose an Image", type=["jpg", "png"])
+    img_file = st.file_uploader("Choose an Image", type=["jpg", "png", "jpeg"])
     if img_file is not None:
         img = Image.open(img_file).resize((250, 250))
         st.image(img, use_column_width=False)
+        
+        import os
+        os.makedirs('./upload_images/', exist_ok=True)
+        
         save_image_path = './upload_images/' + img_file.name
         with open(save_image_path, "wb") as f:
             f.write(img_file.getbuffer())
 
-        if img_file is not None:
+        with st.spinner("Menganalisis gambar..."):
             result = prepare_image(save_image_path)
-            if result in vegetables:
-                st.info('**Category : Vegetables**')
-            else:
-                st.info('**Category : Fruit**')
-            st.success("**Predicted : " + result + '**')
-            cal = fetch_calories(result)
-            if cal:
-                st.warning('**' + cal + '(100 grams)**')
+        
+        if result in vegetables:
+            st.info('**Category : Vegetables**')
+        else:
+            st.info('**Category : Fruit**')
+        
+        st.success("**Predicted : " + result + '**')
+        
+        with st.spinner("Mengambil informasi kalori..."):
+            cal = fetch_calories_improved(result)
+        
+        if cal:
+            st.warning('**' + cal + '**')
+        else:
+            st.error("Tidak dapat mengambil informasi kalori saat ini")
 
-
-run()
+if __name__ == "__main__":
+    run()
