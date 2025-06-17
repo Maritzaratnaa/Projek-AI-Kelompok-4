@@ -1,0 +1,37 @@
+nama,kalori,lemak,protein,karbohidrat,vitamin_c,vitamin_a
+apple,52,0.2,0.3,14.0,Vit C: 4.6 mg,Vit A: 54 IU
+banana,89,0.3,1.1,23.0,Vit C: 8.7 mg,Vit A: 64 IU
+beetroot,43,0.2,1.6,10.0,Vit C: 3.6 mg,Vit A: 33 IU
+bell pepper,31,0.3,1.0,6.0,Vit C: 80.4 mg,Vit A: 157 IU
+cabbage,25,0.1,1.3,6.0,Vit C: 36.6 mg,Vit A: 98 IU
+capsicum,40,0.2,1.5,9.0,Vit C: 120 mg,Vit A: 3131 IU
+carrot,41,0.2,0.9,10.0,Vit C: 5.9 mg,Vit A: 16706 IU
+cauliflower,25,0.3,1.9,5.0,Vit C: 48.2 mg,Vit A: 0 IU
+chilli pepper,40,0.4,2.0,9.0,Vit C: 143.7 mg,Vit A: 952 IU
+corn,96,1.5,3.4,21.0,Vit C: 6.8 mg,Vit A: 187 IU
+cucumber,15,0.1,0.7,4.0,Vit C: 2.8 mg,Vit A: 105 IU
+eggplant,25,0.2,1.0,6.0,Vit C: 2.2 mg,Vit A: 27 IU
+garlic,149,0.5,6.4,33.0,Vit C: 31.2 mg,Vit A: 9 IU
+ginger,80,0.8,1.8,18.0,Vit C: 5 mg,Vit A: 0 IU
+grapes,69,0.2,0.7,18.0,Vit C: 10.8 mg,Vit A: 66 IU
+jalepeno,29,0.4,0.9,6.0,Vit C: 118.6 mg,Vit A: 1078 IU
+kiwi,61,0.5,1.1,15.0,Vit C: 92.7 mg,Vit A: 87 IU
+lemon,29,0.3,1.1,9.0,Vit C: 53 mg,Vit A: 22 IU
+lettuce,15,0.2,1.4,3.0,Vit C: 9.2 mg,Vit A: 7405 IU
+mango,60,0.4,0.8,15.0,Vit C: 36.4 mg,Vit A: 1082 IU
+onion,40,0.1,1.1,9.0,Vit C: 7.4 mg,Vit A: 2 IU
+orange,47,0.1,0.9,12.0,Vit C: 53.2 mg,Vit A: 225 IU
+paprika,39,0.4,1.6,9.0,Vit C: 120.3 mg,Vit A: 3131 IU
+pear,57,0.1,0.4,15.0,Vit C: 4.3 mg,Vit A: 25 IU
+peas,81,0.4,5.4,14.0,Vit C: 40 mg,Vit A: 765 IU
+pineapple,50,0.1,0.5,13.0,Vit C: 47.8 mg,Vit A: 58 IU
+pomegranate,83,1.2,1.7,19.0,Vit C: 10.2 mg,Vit A: 0 IU
+potato,77,0.1,2.0,17.0,Vit C: 19.7 mg,Vit A: 2 IU
+raddish,16,0.1,0.7,3.0,Vit C: 14.8 mg,Vit A: 7 IU
+soy beans,446,20.0,36.0,30.0,Vit C: 6 mg,Vit A: 22 IU
+spinach,23,0.4,2.9,3.6,Vit C: 28.1 mg,Vit A: 9377 IU
+sweetcorn,86,1.2,3.2,19.0,Vit C: 5.5 mg,Vit A: 187 IU
+sweetpotato,86,0.1,1.6,20.0,Vit C: 2.4 mg,Vit A: 14187 IU
+tomato,18,0.2,0.9,3.9,Vit C: 13.7 mg,Vit A: 833 IU
+turnip,28,0.1,0.9,6.4,Vit C: 21 mg,Vit A: 0 IU
+watermelon,30,0.2,0.6,8.0,Vit C: 8.1 mg,Vit A: 569 IU
