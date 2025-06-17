@@ -39,28 +39,9 @@ def fetch_nutrition_info_improved(prediction):
     # Strategi 2: Coba web scraping sebagai backup
     try:
         st.write("🔍 Debug: Mencoba web scraping...")
-        
-        # Mapping nama untuk web scraping
-        name_mapping = {
-            'apel': 'apple',
-            'pisang': 'banana', 
-            'wortel': 'carrot',
-            'tomat': 'tomato',
-            'kentang': 'potato',
-            'bawang merah': 'onion',
-            'jeruk': 'orange',
-            'mangga': 'mango',
-            'semangka': 'watermelon',
-            'anggur': 'grapes'
-        }
-        
-        english_name = name_mapping.get(prediction_lower, prediction_lower)
-        
-        # Coba beberapa URL
+        nama_bahan = quote(prediction.lower().replace(" ", "-"))
         urls_to_try = [
-            f"https://www.nutritionvalue.org/{english_name}-nutrition/",
-            f"https://www.nutrition-and-you.com/{english_name}.html",
-            f"https://nutritiondata.self.com/facts/fruits-and-fruit-juices/{english_name}"
+            f"https://www.fatsecret.co.id/kalori-gizi/umum/{nama_bahan}"
         ]
         
         headers = {
